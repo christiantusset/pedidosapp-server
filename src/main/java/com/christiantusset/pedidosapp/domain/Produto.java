@@ -1,5 +1,7 @@
 package com.christiantusset.pedidosapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class Produto implements Serializable {
             joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
+    @JsonBackReference
     private List<Categoria> categorias = new ArrayList<>();
 
     public Produto () {
