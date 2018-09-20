@@ -27,8 +27,8 @@ public class Produto implements Serializable {
     @JsonBackReference
     private List<Categoria> categorias = new ArrayList<>();
 
-    public Produto () {
-    }
+
+    public Produto () {}
 
     public Produto(Integer id, String nome, Double preco) {
         this.id = id;
