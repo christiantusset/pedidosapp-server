@@ -1,12 +1,10 @@
 package com.christiantusset.pedidosapp.repositories;
 
-
-import com.christiantusset.pedidosapp.domain.Produto;
+import com.christiantusset.pedidosapp.domain.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProdutoDAO extends JpaRepository<Produto, Integer> {
-
+public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
 }

@@ -1,30 +1,35 @@
 package com.christiantusset.pedidosapp.domain;
 
+import com.christiantusset.pedidosapp.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Categoria implements Serializable {
+@Inheritance(strategy= InheritanceType.JOINED)
+public abstract class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
-	
-	@ManyToMany(mappedBy="categorias")
-	private List<Produto> produtos = new ArrayList<>();
+	private Integer estado;
+
+	@JsonIgnore
+	@OneToOne
+	@JoinColumn(name="pedido_id")
+	@MapsId
+	private Pedido pedido;
 
 
-	public Categoria() {}
+	public Pagamento() {}
 
-	public Categoria(Integer id, String nome) {
+	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.estado = estado.getCod();
+		this.pedido = pedido;
 	}
 
 	public Integer getId() {
@@ -35,20 +40,20 @@ public class Categoria implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public EstadoPagamento getEstado() {
+		return EstadoPagamento.toEnum(estado);
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setEstado(EstadoPagamento estado) {
+		this.estado = estado.getCod();
 	}
 
-	public List<Produto> getProdutos() {
-		return produtos;
+	public Pedido getPedido() {
+		return pedido;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
 	@Override
@@ -67,7 +72,7 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Pagamento other = (Pagamento) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

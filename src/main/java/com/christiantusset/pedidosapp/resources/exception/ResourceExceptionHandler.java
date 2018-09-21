@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
+	
+	@ExceptionHandler(ObjectNotFoundException.class)
+	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
 
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandarError> objectNotFound(ObjectNotFoundException exp, HttpServletRequest request) {
-
-        StandarError err = new StandarError(HttpStatus.NOT_FOUND.value(), exp.getMessage(), System.currentTimeMillis());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
-    }
+		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+	}
 }
